@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/momentum-api.props" />
+</Project>
