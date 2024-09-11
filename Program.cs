@@ -1,7 +1,32 @@
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<MomentumDB>(opt => opt.UseInMemoryDatabase("HabitList"));
+var Configuration = builder.Configuration;
+
+// Db Connection
+// var isDevelopment = builder.Environment.IsDevelopment();
+// if (isDevelopment)
+// {
+
+
+builder.Services.AddDbContext<MomentumDBContext>(options =>
+{
+    options.UseNpgsql(Configuration.GetConnectionString("momentumDB"));
+
+    // var dataSourceBuilder = new NpgsqlDataSourceBuilder(Configuration.GetConnectionString("momentumDB"));
+    // dataSourceBuilder.EnableDynamicJson();
+    // options.UseNpgsql(dataSourceBuilder.Build());
+});
+
+// }
+// else
+// {
+//     builder.Services.AddDbContext<MomentumDBContext>(options =>
+//         options.UseNpgsql(Configuration.GetConnectionString("momentumDBProd")));
+// }
+
+// builder.Services.AddDbContext<MomentumDBContext>(opt => opt.UseInMemoryDatabase("MomentumDb"));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -14,6 +39,7 @@ builder.Services.AddOpenApiDocument(config =>
 
 var app = builder.Build();
 
+// Swagger
 if (app.Environment.IsDevelopment())
 {
     app.UseOpenApi();
@@ -26,45 +52,40 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.MapGet("/habititems", async (MomentumDB db) =>
-    await db.Habits.ToListAsync());
 
-app.MapGet("/habititems/complete", async (MomentumDB db) =>
-    await db.Habits.Where(t => t.IsComplete).ToListAsync());
+app.MapGet("/goal", async (MomentumDBContext db) =>
+    await db.GoalDocs.ToListAsync());
 
-app.MapGet("/habititems/{id}", async (int id, MomentumDB db) =>
-    await db.Habits.FindAsync(id)
-        is Habit habit
-            ? Results.Ok(habit)
+app.MapGet("/goal/{id}", async (int id, MomentumDBContext db) =>
+    await db.GoalDocs.FindAsync(id)
+        is GoalDoc goal
+            ? Results.Ok(goal)
             : Results.NotFound());
 
-app.MapPost("/habititems", async (Habit habit, MomentumDB db) =>
+app.MapPost("/goal", async (GoalDoc goal, MomentumDBContext db) =>
 {
-    db.Habits.Add(habit);
+    db.GoalDocs.Add(goal);
     await db.SaveChangesAsync();
 
-    return Results.Created($"/habititems/{habit.Id}", habit);
+    return Results.Created($"/goal/{goal.Id}", goal);
 });
 
-app.MapPut("/habititems/{id}", async (int id, Habit inputHabit, MomentumDB db) =>
+app.MapPut("/goal/{id}", async (int id, GoalDoc inputGoalDoc, MomentumDBContext db) =>
 {
-    var habit = await db.Habits.FindAsync(id);
+    var goal = await db.GoalDocs.FindAsync(id);
 
-    if (habit is null) return Results.NotFound();
-
-    habit.Name = inputHabit.Name;
-    habit.IsComplete = inputHabit.IsComplete;
+    if (goal is null) return Results.NotFound();
 
     await db.SaveChangesAsync();
 
     return Results.NoContent();
 });
 
-app.MapDelete("/habititems/{id}", async (int id, MomentumDB db) =>
+app.MapDelete("/goal/{id}", async (int id, MomentumDBContext db) =>
 {
-    if (await db.Habits.FindAsync(id) is Habit habit)
+    if (await db.GoalDocs.FindAsync(id) is GoalDoc goal)
     {
-        db.Habits.Remove(habit);
+        db.GoalDocs.Remove(goal);
         await db.SaveChangesAsync();
         return Results.NoContent();
     }
