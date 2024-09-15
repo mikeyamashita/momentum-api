@@ -1,7 +1,7 @@
-public class Habit
+public class Milestone
 {
     public string? Name { get; set; }
-    public List<DateTime> DatesCompleted { get; set; }
+    public DateTime DateCompleted { get; set; }
     public bool IsComplete { get; set; }
 
 }

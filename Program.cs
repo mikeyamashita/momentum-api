@@ -1,31 +1,25 @@
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200", "http://192.168.50.173:4200", "http://192.168.50.142:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+        });
+});
+
 var Configuration = builder.Configuration;
 
 // Db Connection
-// var isDevelopment = builder.Environment.IsDevelopment();
-// if (isDevelopment)
-// {
-
-
 builder.Services.AddDbContext<MomentumDBContext>(options =>
 {
     options.UseNpgsql(Configuration.GetConnectionString("momentumDB"));
-
-    // var dataSourceBuilder = new NpgsqlDataSourceBuilder(Configuration.GetConnectionString("momentumDB"));
-    // dataSourceBuilder.EnableDynamicJson();
-    // options.UseNpgsql(dataSourceBuilder.Build());
 });
-
-// }
-// else
-// {
-//     builder.Services.AddDbContext<MomentumDBContext>(options =>
-//         options.UseNpgsql(Configuration.GetConnectionString("momentumDBProd")));
-// }
-
-// builder.Services.AddDbContext<MomentumDBContext>(opt => opt.UseInMemoryDatabase("MomentumDb"));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -52,25 +46,25 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-
-app.MapGet("/goal", async (MomentumDBContext db) =>
+// endpoints
+app.MapGet("/api/goals", async (MomentumDBContext db) =>
     await db.GoalDocs.ToListAsync());
 
-app.MapGet("/goal/{id}", async (int id, MomentumDBContext db) =>
+app.MapGet("/api/goal/{id}", async (int id, MomentumDBContext db) =>
     await db.GoalDocs.FindAsync(id)
         is GoalDoc goal
             ? Results.Ok(goal)
             : Results.NotFound());
 
-app.MapPost("/goal", async (GoalDoc goal, MomentumDBContext db) =>
+app.MapPost("/api/goal", async (GoalDoc goal, MomentumDBContext db) =>
 {
     db.GoalDocs.Add(goal);
     await db.SaveChangesAsync();
 
-    return Results.Created($"/goal/{goal.Id}", goal);
+    return Results.Created($"/api/goal/{goal.Id}", goal);
 });
 
-app.MapPut("/goal/{id}", async (int id, GoalDoc inputGoalDoc, MomentumDBContext db) =>
+app.MapPut("/api/goal/{id}", async (int id, GoalDoc inputGoalDoc, MomentumDBContext db) =>
 {
     var goal = await db.GoalDocs.FindAsync(id);
 
@@ -81,7 +75,7 @@ app.MapPut("/goal/{id}", async (int id, GoalDoc inputGoalDoc, MomentumDBContext 
     return Results.NoContent();
 });
 
-app.MapDelete("/goal/{id}", async (int id, MomentumDBContext db) =>
+app.MapDelete("/api/goal/{id}", async (int id, MomentumDBContext db) =>
 {
     if (await db.GoalDocs.FindAsync(id) is GoalDoc goal)
     {
@@ -92,5 +86,7 @@ app.MapDelete("/goal/{id}", async (int id, MomentumDBContext db) =>
 
     return Results.NotFound();
 });
+
+app.UseCors();
 
 app.Run();
