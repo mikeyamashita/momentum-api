@@ -4,6 +4,7 @@ class MomentumDBContext : DbContext
 {
 
     public DbSet<GoalDoc> GoalDocs { get; set; }
+    public DbSet<HabitGridDoc> HabitGridDocs { get; set; }
 
     public MomentumDBContext(DbContextOptions<MomentumDBContext> options)
         : base(options) { }
@@ -16,5 +17,12 @@ class MomentumDBContext : DbContext
                 d.OwnsMany(d => d.Habits);
                 d.OwnsMany(d => d.Milestones);
             });
+
+        modelBuilder.Entity<HabitGridDoc>()
+            .OwnsOne(c => c.HabitGrid, d =>
+            {
+                d.ToJson();
+            });
+
     }
 }

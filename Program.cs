@@ -46,7 +46,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-// endpoints
+// GoalsDoc Endpoints
 app.MapGet("/api/goals", async (MomentumDBContext db) =>
     await db.GoalDocs.ToListAsync());
 
@@ -80,6 +80,47 @@ app.MapDelete("/api/goal/{id}", async (int id, MomentumDBContext db) =>
     if (await db.GoalDocs.FindAsync(id) is GoalDoc goal)
     {
         db.GoalDocs.Remove(goal);
+        await db.SaveChangesAsync();
+        return Results.NoContent();
+    }
+
+    return Results.NotFound();
+});
+
+// HabitsGridDoc Endpoints
+app.MapGet("/api/habitgrid", async (MomentumDBContext db) =>
+    await db.HabitGridDocs.ToListAsync());
+
+app.MapGet("/api/habitgrid/{id}", async (int id, MomentumDBContext db) =>
+    await db.HabitGridDocs.FindAsync(id)
+        is HabitGridDoc habitgrid
+            ? Results.Ok(habitgrid)
+            : Results.NotFound());
+
+app.MapPost("/api/habitgrid", async (HabitGridDoc habitgrid, MomentumDBContext db) =>
+{
+    db.HabitGridDocs.Add(habitgrid);
+    await db.SaveChangesAsync();
+
+    return Results.Created($"/api/habitgrid/{habitgrid.Id}", habitgrid);
+});
+
+app.MapPut("/api/habitgrid/{id}", async (int id, HabitGridDoc inputHabitGridDoc, MomentumDBContext db) =>
+{
+    var habitgrid = await db.HabitGridDocs.FindAsync(id);
+
+    if (habitgrid is null) return Results.NotFound();
+
+    await db.SaveChangesAsync();
+
+    return Results.NoContent();
+});
+
+app.MapDelete("/api/habitgrid/{id}", async (int id, MomentumDBContext db) =>
+{
+    if (await db.HabitGridDocs.FindAsync(id) is HabitGridDoc habitgrid)
+    {
+        db.HabitGridDocs.Remove(habitgrid);
         await db.SaveChangesAsync();
         return Results.NoContent();
     }
