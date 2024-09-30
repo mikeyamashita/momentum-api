@@ -1,6 +1,6 @@
 public class HabitGrid
 {
-    public string? stringData { get; set; }
-    public int? datalevel { get; set; }
+    public string? date { get; set; }
+    public int? progress { get; set; }
 
 }

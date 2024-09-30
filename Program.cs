@@ -48,7 +48,7 @@ if (app.Environment.IsDevelopment())
 
 // GoalsDoc Endpoints
 app.MapGet("/api/goals", async (MomentumDBContext db) =>
-    await db.GoalDocs.ToListAsync());
+    await db.GoalDocs.OrderBy(x => x.Id).ToListAsync());
 
 app.MapGet("/api/goal/{id}", async (int id, MomentumDBContext db) =>
     await db.GoalDocs.FindAsync(id)
@@ -66,9 +66,11 @@ app.MapPost("/api/goal", async (GoalDoc goal, MomentumDBContext db) =>
 
 app.MapPut("/api/goal/{id}", async (int id, GoalDoc inputGoalDoc, MomentumDBContext db) =>
 {
-    var goal = await db.GoalDocs.FindAsync(id);
+    var goaldoc = await db.GoalDocs.FindAsync(id);
 
-    if (goal is null) return Results.NotFound();
+    if (goaldoc is null) return Results.NotFound();
+
+    goaldoc.Goal = inputGoalDoc.Goal;
 
     await db.SaveChangesAsync();
 
@@ -91,11 +93,17 @@ app.MapDelete("/api/goal/{id}", async (int id, MomentumDBContext db) =>
 app.MapGet("/api/habitgrid", async (MomentumDBContext db) =>
     await db.HabitGridDocs.ToListAsync());
 
-app.MapGet("/api/habitgrid/{id}", async (int id, MomentumDBContext db) =>
-    await db.HabitGridDocs.FindAsync(id)
+app.MapGet("/api/habitgrid/{date}", async (string date, MomentumDBContext db) =>
+    await db.HabitGridDocs.FindAsync(date)
         is HabitGridDoc habitgrid
             ? Results.Ok(habitgrid)
             : Results.NotFound());
+
+// app.MapGet("/api/habitgrid/{id}", async (int id, MomentumDBContext db) =>
+//     await db.HabitGridDocs.FindAsync(id)
+//         is HabitGridDoc habitgrid
+//             ? Results.Ok(habitgrid)
+//             : Results.NotFound());
 
 app.MapPost("/api/habitgrid", async (HabitGridDoc habitgrid, MomentumDBContext db) =>
 {
@@ -111,6 +119,7 @@ app.MapPut("/api/habitgrid/{id}", async (int id, HabitGridDoc inputHabitGridDoc,
 
     if (habitgrid is null) return Results.NotFound();
 
+    habitgrid.HabitGrid = inputHabitGridDoc.HabitGrid;
     await db.SaveChangesAsync();
 
     return Results.NoContent();
