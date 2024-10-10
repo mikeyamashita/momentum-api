@@ -93,11 +93,11 @@ app.MapDelete("/api/goal/{id}", async (int id, MomentumDBContext db) =>
 app.MapGet("/api/habitgrid", async (MomentumDBContext db) =>
     await db.HabitGridDocs.ToListAsync());
 
-app.MapGet("/api/habitgrid/{date}", async (string date, MomentumDBContext db) =>
-    await db.HabitGridDocs.FindAsync(date)
-        is HabitGridDoc habitgrid
-            ? Results.Ok(habitgrid)
-            : Results.NotFound());
+// app.MapGet("/api/habitgrid/{date}", async (string date, MomentumDBContext db) =>
+//     await db.HabitGridDocs.FindAsync(date)
+//         is HabitGridDoc habitgrid
+//             ? Results.Ok(habitgrid)
+//             : Results.NotFound());
 
 // app.MapGet("/api/habitgrid/{id}", async (int id, MomentumDBContext db) =>
 //     await db.HabitGridDocs.FindAsync(id)
