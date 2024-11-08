@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace momentum_api.Migrations
 {
     [DbContext(typeof(MomentumDBContext))]
-    partial class MomentumDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241010153601_StartAndEndDatesToGoals")]
+    partial class StartAndEndDatesToGoals
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,7 +61,7 @@ namespace momentum_api.Migrations
                             b1.Property<string>("Description")
                                 .HasColumnType("text");
 
-                            b1.Property<DateTime?>("Enddate")
+                            b1.Property<DateTime?>("EndDate")
                                 .HasColumnType("timestamp with time zone");
 
                             b1.Property<bool>("IsComplete")
@@ -67,7 +70,7 @@ namespace momentum_api.Migrations
                             b1.Property<string>("Name")
                                 .HasColumnType("text");
 
-                            b1.Property<DateTime?>("Startdate")
+                            b1.Property<DateTime?>("StartDate")
                                 .HasColumnType("timestamp with time zone");
 
                             b1.HasKey("GoalDocId");
