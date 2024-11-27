@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 class MomentumDBContext : DbContext
 {
 
-    public DbSet<GoalDoc> GoalDocs { get; set; }
-    public DbSet<HabitGridDoc> HabitGridDocs { get; set; }
+    public required DbSet<GoalDoc> GoalDocs { get; set; }
+    public required DbSet<HabitGridDoc> HabitGridDocs { get; set; }
 
     public MomentumDBContext(DbContextOptions<MomentumDBContext> options)
         : base(options) { }
