@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>momentum_api</RootNamespace>
+    <UserSecretsId>92c35677-3565-478f-a6ef-528bcd9dd0c8</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
