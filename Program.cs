@@ -7,7 +7,9 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(
         policy =>
         {
-            policy.WithOrigins("http://192.168.50.137:8101", "https://192.168.50.179:8101", "http://192.168.50.179:8101")
+            policy.WithOrigins("http://192.168.50.137:8100", "http://192.168.50.137:8101", "https://192.168.50.179:8101",
+            "http://192.168.50.179:8101", "https://192.168.50.179:8100", "http://192.168.50.179:8100",
+            "https://192.168.50.179:8111", "http://192.168.50.179:8111")
             .AllowAnyHeader()
             .AllowAnyMethod();
         });
