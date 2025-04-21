@@ -43,7 +43,9 @@ jobs:
     - name: Azure Login
       uses: azure/login@v2
       with:
-        creds: ${{ secrets.momentum_api_SPN }}
+        client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_62B68568298C447A8BDBC1920AF240A5 }}
+        tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_90147CF2314044A7A95A26D119B5B0D4 }}
+        subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_1E18154F5D024A7DAC83B78B956B1C1C }}
     - name: Deploy to Azure WebApp
       uses: azure/webapps-deploy@v2
       with:
