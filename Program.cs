@@ -24,36 +24,9 @@ builder.Services.AddDbContext<MomentumDBContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-// builder.WebHost.ConfigureKestrel(options =>
-// {
-//     // options.Listen(System.Net.IPAddress.Parse("192.168.50.15"), 7247, listenOptions =>
-//     // {
-//     //     listenOptions.UseHttps("cert.pfx", "hostedlocally");
-//     // });
-//     options.ListenAnyIP(7247, listenOptions=> {
-//         listenOptions.UseHttps("137.186.195.140.pem", "hostedlocally");
-//     });
-// });
-
-
-
-// builder.WebHost.ConfigureKestrel(serverOptions =>
-// {
-//     serverOptions.ListenAnyIP(7247, listenOptions =>
-//     {
-//         listenOptions.UseHttps("certificate.pfx", "locallyhosted");
-//     });
-// });
-// builder.WebHost.ConfigureKestrel(options =>
-// {
-//     options.Configure(builder.Configuration.GetSection("Kestrel"));
-// });
-
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApiDocument(config =>
 {
-
     config.DocumentName = "MomentumAPI";
     config.Title = "MomentumAPI v1";
     config.Version = "v1";
@@ -62,17 +35,17 @@ builder.Services.AddOpenApiDocument(config =>
 var app = builder.Build();
 
 // Swagger
-if (app.Environment.IsDevelopment())
+// if (app.Environment.IsDevelopment())
+// {
+app.UseOpenApi();
+app.UseSwaggerUi(config =>
 {
-    app.UseOpenApi();
-    app.UseSwaggerUi(config =>
-    {
-        config.DocumentTitle = "MomentumAPI";
-        config.Path = "/swagger";
-        config.DocumentPath = "/swagger/{documentName}/swagger.json";
-        config.DocExpansion = "list";
-    });
-}
+    config.DocumentTitle = "MomentumAPI";
+    config.Path = "/swagger";
+    config.DocumentPath = "/swagger/{documentName}/swagger.json";
+    config.DocExpansion = "list";
+});
+// }
 
 // GoalsDoc Endpoints
 app.MapGet("/api/goals", async (MomentumDBContext db) =>
