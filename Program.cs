@@ -7,7 +7,7 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(
         policy =>
         {
-            policy.WithOrigins( "http://192.168.50.15:8100", "http://192.168.1.64:8100", "http://137.186.195.140:8100", "capacitor://localhost" )
+            policy.WithOrigins("http://192.168.50.15:8100", "http://192.168.1.64:8100", "http://137.186.195.140:8100", "capacitor://localhost")
             .AllowAnyHeader()
             .AllowAnyMethod();
         });
