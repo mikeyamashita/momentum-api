@@ -1,4 +1,4 @@
-name: Build and deploy .NET Core application to Web App momentum-api
+name: Build and deploy .NET Core application momentum-api
 on:
   push:
     branches:
