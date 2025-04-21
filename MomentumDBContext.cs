@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 
 class MomentumDBContext : DbContext
 {
-
     public required DbSet<GoalDoc> GoalDocs { get; set; }
     public required DbSet<HabitGridDoc> HabitGridDocs { get; set; }
 
@@ -23,6 +22,5 @@ class MomentumDBContext : DbContext
             {
                 d.ToJson();
             });
-
     }
 }
