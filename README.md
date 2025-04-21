@@ -40,3 +40,14 @@ postgres setup:
 docker run --name postgres-momentum -p 5433:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=<password> -d postgres-momentum
 dotnet tool install --global dotnet-ef
 dotnet ef database update
+
+// deploy postgresdb to azure
+add container registry throug portal:
+az login
+az acr login --name momentumdb  
+
+docker tag postgres:latest momentumdb.azurecr.io/postgres
+docker push momentumdb.azurecr.io/postgres:latest
+
+az container create  --resource-group momentumhabits-group  --name momentumdb  --image momentumdb.azurecr.io/postgres:latest  --cpu 1 --memory 1.5 --registry-login-server momentumdb.azurecr.io  --registry-username momentumdb  --registry-password <password> --ports 5432 --os-type Linux --environment-variables POSTGRES_USER=postgres  POSTGRES_PASSWORD=<password> **not working
+
