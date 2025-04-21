@@ -46,7 +46,7 @@ jobs:
         client-id: ${{ secrets.MOMENTUM_CLIENTID }}
         tenant-id: ${{ secrets.MOMENTUM_TENANTID }}
         subscription-id: ${{ secrets.MOMENTUM_SUBSCRIPTIONID }}
-        client-secret: ${{ secrets.MOMENTUM_CLIENTSECRET }}
+        auth-type: ID_TOKEN
 
     - name: Deploy to Azure WebApp
       uses: azure/webapps-deploy@v2
