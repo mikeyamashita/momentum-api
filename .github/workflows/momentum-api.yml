@@ -43,9 +43,10 @@ jobs:
     - name: Azure Login
       uses: azure/login@v2
       with:
-        client-id: ${{ secrets.momentum_clientid }}
-        tenant-id: ${{ secrets.momentum_tenantid }}
-        subscription-id: ${{ secrets.momentum_subscriptionid }}
+        client-id: ${{ secrets.MOMENTUM_CLIENTID }}
+        tenant-id: ${{ secrets.MOMENTUM_TENANTID }}
+        subscription-id: ${{ secrets.MOMENTUM_SUBSCRIPTIONID }}
+        client-secret: ${{ secrets.MOMENTUM_CLIENTSECRET }}
 
     - name: Deploy to Azure WebApp
       uses: azure/webapps-deploy@v2
