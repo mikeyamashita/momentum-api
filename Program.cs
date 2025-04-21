@@ -13,6 +13,7 @@ builder.Services.AddCors(options =>
         });
 });
 
+
 var Configuration = builder.Configuration;
 
 // Db Connection
