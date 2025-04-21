@@ -36,13 +36,13 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 
 
-builder.WebHost.ConfigureKestrel(serverOptions =>
-{
-    serverOptions.ListenAnyIP(7247, listenOptions =>
-    {
-        listenOptions.UseHttps("certificate.pfx", "locallyhosted");
-    });
-});
+// builder.WebHost.ConfigureKestrel(serverOptions =>
+// {
+//     serverOptions.ListenAnyIP(7247, listenOptions =>
+//     {
+//         listenOptions.UseHttps("certificate.pfx", "locallyhosted");
+//     });
+// });
 // builder.WebHost.ConfigureKestrel(options =>
 // {
 //     options.Configure(builder.Configuration.GetSection("Kestrel"));
