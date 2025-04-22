@@ -16,37 +16,20 @@ builder.Services.AddCors(options =>
 var Configuration = builder.Configuration;
 
 // Db Connection
-builder.Services.AddDbContext<MomentumDBContext>(options =>
+
+var isDevelopment = builder.Environment.IsDevelopment();
+if (isDevelopment)
 {
-    options.UseNpgsql(Configuration.GetConnectionString("momentumDB"));
-});
+    builder.Services.AddDbContext<MomentumDBContext>(options =>
+        options.UseNpgsql(Configuration.GetConnectionString("momentumDBDev")));
+}
+else
+{
+    builder.Services.AddDbContext<MomentumDBContext>(options =>
+        options.UseNpgsql(Configuration.GetConnectionString("momentumDB")));
+}
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-// builder.WebHost.ConfigureKestrel(options =>
-// {
-//     // options.Listen(System.Net.IPAddress.Parse("192.168.50.15"), 7247, listenOptions =>
-//     // {
-//     //     listenOptions.UseHttps("cert.pfx", "hostedlocally");
-//     // });
-//     options.ListenAnyIP(7247, listenOptions=> {
-//         listenOptions.UseHttps("137.186.195.140.pem", "hostedlocally");
-//     });
-// });
-
-
-
-// builder.WebHost.ConfigureKestrel(serverOptions =>
-// {
-//     serverOptions.ListenAnyIP(7247, listenOptions =>
-//     {
-//         listenOptions.UseHttps("certificate.pfx", "locallyhosted");
-//     });
-// });
-// builder.WebHost.ConfigureKestrel(options =>
-// {
-//     options.Configure(builder.Configuration.GetSection("Kestrel"));
-// });
 
 
 builder.Services.AddEndpointsApiExplorer();
