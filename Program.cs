@@ -7,11 +7,12 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(
         policy =>
         {
-            policy.WithOrigins( "http://192.168.50.15:8100", "http://192.168.1.64:8100", "http://137.186.195.140:8100", "capacitor://localhost" )
+            policy.WithOrigins("http://192.168.50.15:8100", "http://192.168.1.64:8100", "http://137.186.195.140:8100", "capacitor://localhost")
             .AllowAnyHeader()
             .AllowAnyMethod();
         });
 });
+
 
 var Configuration = builder.Configuration;
 
@@ -31,11 +32,9 @@ else
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApiDocument(config =>
 {
-
     config.DocumentName = "MomentumAPI";
     config.Title = "MomentumAPI v1";
     config.Version = "v1";
@@ -46,14 +45,14 @@ var app = builder.Build();
 // Swagger
 if (app.Environment.IsDevelopment())
 {
-    app.UseOpenApi();
-    app.UseSwaggerUi(config =>
-    {
-        config.DocumentTitle = "MomentumAPI";
-        config.Path = "/swagger";
-        config.DocumentPath = "/swagger/{documentName}/swagger.json";
-        config.DocExpansion = "list";
-    });
+app.UseOpenApi();
+app.UseSwaggerUi(config =>
+{
+    config.DocumentTitle = "MomentumAPI";
+    config.Path = "/swagger";
+    config.DocumentPath = "/swagger/{documentName}/swagger.json";
+    config.DocExpansion = "list";
+});
 }
 
 // GoalsDoc Endpoints
