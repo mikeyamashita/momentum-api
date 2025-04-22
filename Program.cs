@@ -38,6 +38,9 @@ builder.Services.AddOpenApiDocument(config =>
     config.Version = "v1";
 });
 
+var connString = builder.Configuration.GetConnectionString("DefaultConnection");
+Console.WriteLine("Connection string is: " + connString);
+
 var app = builder.Build();
 
 // Swagger
