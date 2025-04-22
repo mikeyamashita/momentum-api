@@ -16,7 +16,6 @@ builder.Services.AddCors(options =>
 var Configuration = builder.Configuration;
 
 // Db Connection
-
 var isDevelopment = builder.Environment.IsDevelopment();
 if (isDevelopment)
 {
