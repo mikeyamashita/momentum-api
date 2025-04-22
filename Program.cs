@@ -43,8 +43,8 @@ builder.Services.AddOpenApiDocument(config =>
 var app = builder.Build();
 
 // Swagger
-if (app.Environment.IsDevelopment())
-{
+// if (app.Environment.IsDevelopment())
+// {
 app.UseOpenApi();
 app.UseSwaggerUi(config =>
 {
@@ -53,7 +53,7 @@ app.UseSwaggerUi(config =>
     config.DocumentPath = "/swagger/{documentName}/swagger.json";
     config.DocExpansion = "list";
 });
-}
+// }
 
 using (var scope = app.Services.CreateScope())
 {
