@@ -20,7 +20,7 @@ var isDevelopment = builder.Environment.IsDevelopment();
 if (isDevelopment)
 {
     builder.Services.AddDbContext<MomentumDBContext>(options =>
-        options.UseNpgsql(Configuration.GetConnectionString("momentumDBDev")));
+        options.UseNpgsql(Configuration.GetConnectionString("momentumDB")));
 }
 else
 {
