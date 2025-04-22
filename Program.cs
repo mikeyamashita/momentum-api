@@ -53,11 +53,11 @@ app.UseSwaggerUi(config =>
 });
 // }
 
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<MomentumDBContext>();
-    db.Database.Migrate(); // 👈 this runs pending migrations automatically
-}
+// using (var scope = app.Services.CreateScope())
+// {
+//     var db = scope.ServiceProvider.GetRequiredService<MomentumDBContext>();
+//     db.Database.Migrate(); // 👈 this runs pending migrations automatically
+// }
 
 
 // GoalsDoc Endpoints
